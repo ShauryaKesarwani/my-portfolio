@@ -1,12 +1,20 @@
 import React from 'react';
 
-const UserIDPage = async ({ params }: { params: { id: string } }) => {
+interface User {
+  id: number
+  name: string
+  email: string
+}
+
+
+const UserIDPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const {id} = await params;
+  const userId = Number(id);
   const res = await fetch('https://jsonplaceholder.typicode.com/users');
   const users = await res.json();
-  const userId = Number(params.id);
 
   // using find to get the user
-  const user = users.find((u: any) => u.id === userId);
+  const user = users.find((u: User) => u.id === userId);
 
   // using map with if
   // const userList = users.map((u: any) => {
